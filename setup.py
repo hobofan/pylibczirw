@@ -13,7 +13,7 @@ from typing import List
 
 # DO NOT CHANGE
 # THIS IS UPDATED AUTOMATICALLY THROUGH PYTHON-SEMANTIC-RELEASE
-VERSION = "0.0.0"
+VERSION = "4.1.3"
 
 with open("INFO.md") as info_file:
     info = info_file.read()
@@ -65,7 +65,7 @@ class CMakeBuild(build_ext):
 
         cmake_args += ["-DLIBCZI_BUILD_DYNLIB=OFF"]            # we don't need the dynamic library
         cmake_args += ["-DLIBCZI_BUILD_UNITTESTS=OFF"]         # also, we don't need the unit tests
-        cmake_args += ["-DLIBCZI_BUILD_CURL_BASED_STREAM=ON"]  # and we want a version which is "libcurl-enabled"
+        cmake_args += ["-DLIBCZI_BUILD_CURL_BASED_STREAM=OFF"]  # and we want a version which is "libcurl-enabled"
 
         cmake_args += ["-DPYLIBCZIRW_VERSION=" + VERSION]      # Have the same version as the Python package
 
@@ -90,7 +90,8 @@ class CMakeBuild(build_ext):
         else:  # Linux
             # Get the value of the environment variable
             manylinux_env_variable = os.environ.get('AUDITWHEEL_PLAT', '').lower()
-            if 'manylinux' in manylinux_env_variable:
+            # if 'manylinux' in manylinux_env_variable:
+            if True:
               # When running in manylinux-container, we want to build openssl ourselves and link it statically. On the CI/CD-server,
               #  we set the variable "BUILDWHEEL_STATIC_OPENSSL" in order to instruct running a local build of openSSL (and instruct the libCZI-
               #  build to use it)
@@ -169,7 +170,7 @@ setup(
     cmdclass=dict(build_ext=CMakeBuild),
     install_requires=requirements,
     # we require at least python version 3.7
-    python_requires=">=3.7,<3.12",
+    python_requires=">=3.7,<3.13",
     license_files=["COPYING", "COPYING.LESSER", "NOTICE"],
     # Classifiers help users find your project by categorizing it.
     # For a list of valid classifiers, see https://pypi.org/classifiers/
